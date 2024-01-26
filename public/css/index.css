@@ -1,0 +1,114 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #b4bdf0;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+
+}
+
+.input-container {
+
+    width: 50%;
+}
+
+input {
+    height: 34px;
+}
+
+input,
+textarea {
+
+    width: 100%;
+    padding: 6px;
+    border: 2px solid #97a4ea;
+    border-radius: 6px;
+    margin-top: 7px;
+    resize: none;
+
+}
+
+input:focus,
+textarea:focus {
+
+    outline: none;
+}
+
+label {
+
+    font-size: 20px;
+}
+
+.add-btn-container {
+
+    text-align: right;
+}
+
+.todo-container {
+
+    width: 50%;
+    height: 43vh;
+    margin-top: 16px;
+    overflow-y: scroll;
+}
+
+.todo {
+    
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 12px;
+    cursor: pointer;
+}
+
+
+.todo:nth-child(even) {
+
+    background-color: rgb(111, 153, 233);
+}
+.todo:nth-child(odd) {
+
+    background-color: rgb(201, 255, 165);
+}
+
+.todo:nth-child(3n) {
+
+    background-color: rgb(255, 165, 190);
+}
+
+.todo:hover {
+    
+    box-shadow: 0px 0px 4px;
+}
+
+#todo-details {
+    display: none;
+    padding: 10px;
+    background-color: #d3d3d3;
+}
+
+button {
+
+    border-radius: 6px;
+    background-color: #8d71f0;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+}
+
+button:hover {
+
+    background-color: rgb(113, 87, 206);
+}
