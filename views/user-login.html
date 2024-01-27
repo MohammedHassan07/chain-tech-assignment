@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M-Cart Login</title>
+
+    <link rel="stylesheet" href="../css/user-login.css">
+    <link rel="stylesheet" href="../css/utils.css">
+</head>
+
+<body>
+
+    <main class="column-container">
+
+
+        <!-- form -->
+        <div class="column-container form-container">
+
+            <form class="log-in-form">
+                <div style="font-size: 2em;">Sign in</div>
+
+
+                <div class="mt-15">
+
+                    <label class="input-label">Email</label>
+                    <input id="email-input" class="mt-5" type="text" placeholder="Enter Email">
+                </div>
+
+                <div class="mt-15">
+
+                    <label class="input-label">Password</label>
+                    <input id="password" class="mt-5" type="password" placeholder="Enter Password">
+                </div>
+
+                <p id="error">All Fields are Mandatory</p>
+                <div class="button-container mt-9">
+                    <button id="btn-coninue" class="btn">Login</button>
+                </div>
+
+
+                <div class="horizontal-line mt-19"></div>
+
+
+            </form>
+        </div>
+
+
+        <!-- create account -->
+        <div class="column-container create-account-container">
+
+            <div class="container new-to-amazon">
+                <h5>New User</h5>
+            </div>
+
+            <div class="create-btn-container">
+                <a id="create-account" target="_parent" style="color: blue;">Create Your Account</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- script -->
+    <script type="module" src="../javascript/login.js"></script>
+</body>
+
+</html>

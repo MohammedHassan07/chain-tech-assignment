@@ -4,6 +4,7 @@ console.log('home')
 // load the added, completed task taks after DOM rendered
 
 let todos = [];
+const token = localStorage.getItem('token')
 renderTodos()
 
 // delete todo
@@ -11,18 +12,24 @@ document.getElementById('todos').addEventListener('click', (event) => {
 
     if (event.target.classList.contains('delete-btn')) {
 
-        const index = event.target.getAttribute('data-index')
+        const checkBox = event.target
 
-        todos.splice(index, 1)
+        if (checkBox.checked) {
 
-        window.localStorage.setItem('todos', JSON.stringify(todos))
 
-        renderTodos()
+            const index = event.target.getAttribute('data-index')
+            console.log('checked', index)
+
+            // todos.splice(index, 1)
+            window.localStorage.setItem('todos', JSON.stringify(todos))
+
+            renderTodos()
+        }
     }
 })
 
 const addTodo = document.getElementById('btn-add')
-addTodo.addEventListener('click', (event) => {
+addTodo.addEventListener('click', async (event) => {
     event.preventDefault()
 
     event.prevent
@@ -38,14 +45,22 @@ addTodo.addEventListener('click', (event) => {
         const data = { title, content, dateAndTime }
 
         todos.unshift(data);
-        console.log('add', todos)
-        window.localStorage.setItem('todos', JSON.stringify(todos))
 
-        // render todo
-        renderTodos();
+        const addURL = ''
+        const response = await makeRequest(addURL, data, 'POST')
 
-        document.getElementById('title').value = '';
-        document.getElementById('content').value = '';
+        if (response.message == 'success') {
+
+            // render todo
+            renderTodos();
+
+            document.getElementById('title').value = '';
+            document.getElementById('content').value = '';
+        } else {
+
+            console.log('add todo --> something went wrong')
+        }
+
     }
 
 })
@@ -55,26 +70,15 @@ function renderTodos() {
     const todoContainer = document.getElementById('todos');
     todoContainer.innerHTML = ''
 
+    todos.forEach((todo, index) => {
 
-    const storedTodo = window.localStorage.getItem('todos')
-    if (storedTodo.length == 0) {
+        const todoElement = document.createElement('div')
+        todoElement.classList.add('todo')
+        todoElement.classList.add('mt-15')
 
-        todoContainer.innerHTML = `<div><h2>Add Some Todo</h2></div>`
-    } else {
+        todoElement.innerHTML =
 
-        todos = JSON.parse(storedTodo)
-        console.log('render', todos)
-
-        todos.forEach((todo, index) => {
-
-
-            const todoElement = document.createElement('div')
-            todoElement.classList.add('todo')
-            todoElement.classList.add('mt-15')
-
-            todoElement.innerHTML =
-
-                `
+            `
         <div>
             <h4>${todo.title}</h4>
         </div>
@@ -86,14 +90,35 @@ function renderTodos() {
         <div class="flex mt-12 btn-container">
         <div><p>${todo.dateAndTime}</p></div>
             <div style="text-align: right;">
-                 <button class="delete-btn" data-index="${index}" style="background-color: red;">Delete</button>
+            <input type="checkbox" class="delete-btn" data-index="${index}" data-index="${todo.taskId}">    
             </div>
         </div>
     `
-
-            todoContainer.appendChild(todoElement);
-        });
-    }
+        todoContainer.appendChild(todoElement);
+    });
 }
 
 
+async function makeRequest(URL, data, type) {
+    try {
+
+
+        const response = await fetch(URL, {
+
+            method: `${type}`,
+            headers: {
+
+                "Content-Type": "Application/json",
+                "token": `${token}`
+            }
+        })
+
+        const data = await response.json()
+
+        return data
+    } catch (error) {
+        console.log('makeRequest -> ', error)
+
+        return
+    }
+}

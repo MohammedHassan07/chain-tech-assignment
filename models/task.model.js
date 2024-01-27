@@ -17,6 +17,12 @@ const noteSchema = new Schema({
 
         type: String,
         maxlength: 100
+    },
+
+    completed: {
+
+        type: Boolean,
+        default: false
     }
 
 }, { timestamps: true })
