@@ -11,5 +11,9 @@ route.get('/user-login', (req, res) => {
     res.render('user-login')
 })
 
+route.get('/user-register', (req, res) => {
+    res.render('user-register')
+})
+
 
 module.exports = route

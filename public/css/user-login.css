@@ -44,20 +44,15 @@ main {
 }
 
 .create-btn-container {
-    width: 100%;
+
     margin-top: 15px;
-    color: black;
-    border: 1px solid var(--border-primary);
-    border-radius: 7px;
     cursor: pointer;
-    text-align: center;
     font-size: 14px;
-    background-color: var(--white-primary);
 }
 
 #create-account {
-    
-    width: 100%;  
+
+    width: 100%;
     height: 2.3em;
     display: block;
     text-decoration: none;
@@ -65,16 +60,35 @@ main {
     padding-top: 8px;
 }
 
-#create-account:hover {
-
-    background-color: var(--bg-4)
-}
 
 #error {
 
     color: red;
     font-size: 14px;
-    visibility: hidden;  
+    visibility: hidden;
     margin-top: 5px;
     margin-bottom: 16px;
+}
+
+.mobile-container {
+
+    gap: 6px;
+}
+
+#select-country-code {
+
+    width: 78px;
+    height: 26px;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 3px 6px;
+    color: black;
+    font-size: 12px;
+    background: white;
+    cursor: pointer;
+}
+
+.mobile {
+
+    width: 100%;
 }

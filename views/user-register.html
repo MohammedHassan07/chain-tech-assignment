@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../css/user-login.css">
+    <link rel="stylesheet" href="../css/utils.css">
+    <title>Register</title>
+</head>
+
+<body>
+
+    <main class="column-container">
+
+        <div class="column-container form-container">
+            <form class="log-in-form">
+                <div style="font-size: 2em;">Create Account</div>
+
+                <div class="mt-15">
+
+                    <!-- name -->
+                    <label class="input-label">Your Name</label>
+                    <input id="name-input" class="mt-5" type="text" placeholder="First and last Name">
+                </div>
+
+                <!-- country code and mobile-->
+                <div class="mt-19">
+
+                    <label class="input-label">Mobile Number (Optional)</label>
+
+                    <div class="container mobile-container mt-2">
+
+                        <div>
+                            <select id="select-country-code">
+                                <option value="+91">India +91</option>
+                                <option value="+61">Australia +61</option>
+                                <option value="+54">Argentina +54</option>
+                                <option value="+358">Finland +358</option>
+                                <option value="+49">Germany +49</option>
+                            </select>
+                        </div>
+
+                        <!-- mobile number -->
+                        <div class="mobile">
+                            <input id="mobile-input" type="tel" placeholder="Mobile Number">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- email -->
+                <div class="mt-19">
+
+                    <label class="input-label">Email</label>
+                    <div class="mobile mt-2">
+                        <input id="email-input" type="email">
+                    </div>
+                </div>
+
+                <!-- password -->
+                <div class="mt-19">
+
+                    <label class="input-label">Password</label>
+                    <div class="mobile mt-2">
+                        <input id="password-input" type="password" placeholder="At least 6 characters">
+                    </div>
+
+                    <div class="mt-2">
+                        <span class="condition-and-privacy">
+                            <img class="alert-img" src="../images/icons/exclamation-mark.png" alt="alert">
+                            Passwords must be at least 6 characters.
+                        </span>
+                    </div>
+                </div>
+
+
+                <div class="button-container mt-9">
+                    <button id="btn-create-account" class="btn">Create Account</button>
+                </div>
+
+
+            </form>
+        </div>
+
+
+        <div class="column-container create-account-container mt-12">
+
+            <div class="container new-to-amazon">
+                <h5>Old User</h5>
+            </div>
+            <div class="create-btn-container">
+                <a id="login-form" target="_parent" style="color: blue;">Already Have an Account</a>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="../javascript/register.js"></script>
+</body>
+
+</html>

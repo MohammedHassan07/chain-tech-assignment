@@ -12,7 +12,7 @@
 
 <body>
 
-    <main class="column-container">
+    <main id="main" class="column-container">
 
 
         <!-- form -->
@@ -36,21 +36,16 @@
 
                 <p id="error">All Fields are Mandatory</p>
                 <div class="button-container mt-9">
-                    <button id="btn-coninue" class="btn">Login</button>
+                    <button id="btn-login" class="btn">Login</button>
                 </div>
-
-
-                <div class="horizontal-line mt-19"></div>
-
 
             </form>
         </div>
 
-
         <!-- create account -->
         <div class="column-container create-account-container">
 
-            <div class="container new-to-amazon">
+            <div class="container new-to-amazon mt-9">
                 <h5>New User</h5>
             </div>
 
@@ -58,10 +53,11 @@
                 <a id="create-account" target="_parent" style="color: blue;">Create Your Account</a>
             </div>
         </div>
+
     </main>
 
     <!-- script -->
-    <script type="module" src="../javascript/login.js"></script>
+    <script type="module" defer src="../javascript/login.js"></script>
 </body>
 
 </html>

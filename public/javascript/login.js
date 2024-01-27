@@ -1,19 +1,20 @@
 console.log('login.js')
 
-// continue button, email input
-const btnContinue = document.getElementById('btn-coninue')
-const dataInput = document.getElementById('email-input')
-const passwordInput = document.getElementById('password')
 const errorPara = document.getElementById('error')
-
-btnContinue.addEventListener('click', async (event) => {
+const btnLogin = document.getElementById('btn-login')
+btnLogin.addEventListener('click', async (event) => {
 
     event.preventDefault()
 
-    const data = dataInput.value
+    console.log('login')
+
+    const emailInput = document.getElementById('email-input')
+    const passwordInput = document.getElementById('password')
+
+    const email = emailInput.value
     const password = passwordInput.value
 
-    if (data === '' || password == '') {
+    if (email === '' || password == '') {
 
         errorPara.style.visibility = 'visible'
     } else {
@@ -23,21 +24,20 @@ btnContinue.addEventListener('click', async (event) => {
 
             const url = 'http://localhost:3000/user/login'
 
-            const response = await makeRequest(url, { data: data, password: password }, 'POST')
+            // const response = await makeRequest(url, { email: data, password: password }, 'POST')
 
-            // const { token } = response
-            // window.localStorage.setItem('token', token)
+            const { token } = response
+            window.localStorage.setItem('token', token)
 
-            // window.location.replace('http://127.0.0.1:5500/Frontend/html/home.html')
+            // window.location.replace('http://127.0.0.1:3000/home/')
 
-            // console.log('logIn: ', response)
+            console.log('logIn: ', response)
 
         } catch (error) {
             console.log('logIn: ', error.message)
         }
     }
 })
-
 
 async function makeRequest(URL, data, type) {
     try {
