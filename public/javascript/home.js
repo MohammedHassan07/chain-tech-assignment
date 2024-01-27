@@ -1,23 +1,23 @@
 console.log('home')
 
-let todos = [];
+var todos = [];
 const token = localStorage.getItem('token')
 const errorPara = document.getElementById('error')
 
 // TODO: DOMContentLoaded
 // load the added, completed task taks after DOM rendered
-document.addEventListener('DOMContentLoaded', async () => {
+// document.addEventListener('DOMContentLoaded', async () => {
 
-    const taskToBeCompletedURL = 'http://127.0.0.1:3000/complete-task'
 
-    const response = await makeGetRequest(taskToBeCompletedURL)
+//     const taskToBeCompletedURL = 'http://127.0.0.1:3000/complete-task'
 
-    if (response.flag) {
+//     const response = await makeGetRequest(taskToBeCompletedURL)
 
-        renderTodos()
-    }
+//     if (response.flag) {
 
-})
+//         renderTodos()
+//     }
+// })
 
 // delete todo
 document.getElementById('todos').addEventListener('click', (event) => {
@@ -74,10 +74,16 @@ addTodo.addEventListener('click', async (event) => {
             errorPara.innerHTML = response.message
             errorPara.style.visibility = 'visible'
         }
-
     }
-
 })
+
+// radio buttom
+const btnPendingTask = document.getElementById('btn-pending-task')
+const btnCompletedTask = document.getElementById('btn-completed-task')
+
+btnPendingTask.addEventListener('change', handleChangeRadioState)
+btnCompletedTask.addEventListener('change', handleChangeRadioState)
+
 
 function renderTodos() {
 
@@ -163,4 +169,24 @@ async function makeGetRequest(URL) {
         console.log('makeGetRequest -> ', error)
         return
     }
+}
+
+async function handleChangeRadioState(event) {
+
+    const state = event.target.value
+
+    console.log(state)
+    let taskToBeCompletedURL;
+    if (state == 'pending') {
+
+        taskToBeCompletedURL = 'http://127.0.0.1:3000/complete-task'
+    } else {
+
+        taskToBeCompletedURL = 'http://127.0.0.1:3000/get-completed-task'
+    }
+    const response = await makeGetRequest(taskToBeCompletedURL)
+    todos = response
+    console.log(response)
+    renderTodos()
+    return
 }

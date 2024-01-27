@@ -43,21 +43,20 @@ const getCompletedTasks = async (req, res) => {
 
         const email = req.email
         const user = await userModel.findOne({ email })
-        const notes = await taskModel.find({ user: user._id, completed: true })
 
         if (!user) {
 
             return res.status(401).json({ flag: false, message: 'user not present try to log in again' })
         }
+        
+        const notes = await taskModel.find({ user: user._id, completed: true })
         if (!notes) {
 
             return res.json({ flag: false, message: 'Note is not present for the user' })
-
         }
 
         return res.status(200).json({ flag: true, notes })
-
-
+        
     } catch (error) {
         console.log('allNotes-->', error)
         res.json({ flag: false, message: 'Internal Server Error' })
@@ -116,15 +115,14 @@ const completeTask = async (req, res) => {
 
             return res.status(401).json({ flag: false, message: 'user not present try to log in again' })
         }
-        const taskData = await taskModel.findOne({ completed: false, user: user._id })
+        const taskData = await taskModel.find({ completed: false, user: user._id })
 
         if (!taskData) {
 
-            return res.json({ flag: false, message: `Note is not exist with ID ${noteId} ` })
+            return res.json({ flag: false, message: 'No task present to complete' })
         }
 
-        const deletedData = await taskModel.findOneAndDelete({ _id: noteId })
-        res.status(200).json({ flag: true, message: 'Note deleted successfully', deletedData })
+        res.status(200).json({ flag: true, message: 'Pending Tasks', taskData })
 
     } catch (error) {
         console.log('deleteNote-->', error)
