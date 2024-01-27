@@ -69,10 +69,10 @@ const updateTask = async (req, res) => {
     try {
 
         const email = req.email
-        const { title, newContent } = req.body
+        const { title, content, taskId } = req.body
 
         const user = await userModel.findOne({ email })
-        const note = await taskModel.findOne({ title, user: user._id })
+        const note = await taskModel.findOne({ user: user._id })
 
         if (!user) {
 
@@ -84,14 +84,15 @@ const updateTask = async (req, res) => {
 
         }
 
-        const valid = checkLength({ title, newContent })
+        const valid = checkLength({ title, content })
         if (!valid) {
 
             return res.json({ flag: false, message: 'title should be less than 25 and content should be less than 100 characters' })
-
         }
 
-        const oldData = await taskModel.findOneAndUpdate({ title }, { $set: { content: newContent } })
+        const oldData = await taskModel.findOneAndUpdate({ _id: taskId }, {
+            $set: { title: title, content: content }
+        })
 
         res.status(200).json({ flag: true, message: 'Note updated successfully', oldData })
 
