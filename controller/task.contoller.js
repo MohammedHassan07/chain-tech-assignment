@@ -35,43 +35,15 @@ const addTask = async (req, res) => {
         res.json({ flag: false, message: 'Internal Server Error' })
     }
 }
-// get single note
-const getSingleNote = async (req, res) => {
 
-    try {
-
-        const email = req.email
-        const noteId = req.query.id
-
-        const user = await userModel.findOne({ email })
-        const note = await taskModel.findOne({ _id: noteId, user: user._id })
-
-        if (!user) {
-
-            return res.status(401).json({ flag: false, message: 'user not present try to log in again' })
-        }
-
-        if (!note) {
-
-            return res.json({ flag: false, message: `Note is not present with the ID ${noteId}` })
-
-        }
-
-        return res.json({ flag: true, message: 'Note is present', note })
-
-    } catch (error) {
-        console.log('oneNote-->', error)
-        res.json({ flag: false, message: 'Internal Server Error' })
-    }
-}
-// get all notes
+// get completed notes
 const getCompletedTasks = async (req, res) => {
 
     try {
 
         const email = req.email
         const user = await userModel.findOne({ email })
-        const notes = await taskModel.find({ user: user._id })
+        const notes = await taskModel.find({ user: user._id, completed: true })
 
         if (!user) {
 
@@ -83,7 +55,7 @@ const getCompletedTasks = async (req, res) => {
 
         }
 
-        return res.status(200).json({ flag: true, message: 'All notes', notes })
+        return res.status(200).json({ flag: true, notes })
 
 
     } catch (error) {
@@ -116,7 +88,7 @@ const updateTask = async (req, res) => {
         if (!valid) {
 
             return res.json({ flag: false, message: 'title should be less than 25 and content should be less than 100 characters' })
-           
+
         }
 
         const oldData = await taskModel.findOneAndUpdate({ title }, { $set: { content: newContent } })
@@ -128,13 +100,14 @@ const updateTask = async (req, res) => {
         res.json({ flag: false, message: 'Internal Server Error' })
     }
 }
-// delete note
+
+// task to be completed note
 const completeTask = async (req, res) => {
 
     try {
 
         const email = req.email
-        const noteId = req.query.id
+        console.log(email)
 
         const user = await userModel.findOne({ email })
 
@@ -142,9 +115,9 @@ const completeTask = async (req, res) => {
 
             return res.status(401).json({ flag: false, message: 'user not present try to log in again' })
         }
-        const noteData = await taskModel.findOne({ _id: noteId, user: user._id })
+        const taskData = await taskModel.findOne({ completed: false, user: user._id })
 
-        if (!noteData) {
+        if (!taskData) {
 
             return res.json({ flag: false, message: `Note is not exist with ID ${noteId} ` })
         }
@@ -158,9 +131,34 @@ const completeTask = async (req, res) => {
     }
 }
 
+const updateTaskStatus = async (req, res) => {
+
+    try {
+
+        const { taskId } = req.body
+        const email = req.email
+        console.log(email)
+
+        const user = await userModel.findOne({ email })
+
+        if (!user) {
+
+            return res.status(401).json({ flag: false, message: 'user not present try to log in again' })
+        } else {
+
+            const taskData = await taskModel.findOneAndUpdate({ user: user._id, _id: taksId }, { completed: true })
+        }
+
+    } catch (error) {
+        console.log('deleteNote-->', error)
+        res.json({ flag: false, message: 'Internal Server Error' })
+    }
+}
+
 module.exports = {
 
-    addTask, getSingleNote,
+    addTask,
     getCompletedTasks, completeTask,
-    updateTask
+    updateTask,
+    updateTaskStatus
 }

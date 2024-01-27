@@ -1,5 +1,6 @@
 const express = require('express')
 const hbs = require('hbs')
+const cors = require('cors')
 const { connectToDatabase } = require('./utils/connectToDB')
 const dotenve = require('dotenv')
 dotenve.config()
@@ -19,6 +20,7 @@ app.use(express.json())
 app.use(express.static('./public'))
 app.set('view engine', 'html')
 app.engine('html', hbs.__express)
+app.use(cors({option: '*'}))
 
 // Routes
 const homeRoute = require('./routes/home.routes')
@@ -31,4 +33,4 @@ app.use(docsRoute)
 
 app.use('/home', homeRoute)
 app.use('/user', userRoute)
-app.use('/note', taskRoute)
+app.use('/task', taskRoute)

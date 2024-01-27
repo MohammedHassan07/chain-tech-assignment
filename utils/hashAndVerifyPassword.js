@@ -6,9 +6,11 @@ dotenve.config()
 const hashPassword = async (password) => {
     try {
 
-        const hashSalt = process.env.HASH_SALT
+        const hashSalt = 10
         const salt = await bcrypt.genSalt(Number(hashSalt))
         const hashPassword = await bcrypt.hash(password, salt)
+
+        console.log('hash', hashSalt, salt, hashPassword)
 
         return hashPassword
     } catch (error) {

@@ -6,8 +6,6 @@ btnLogin.addEventListener('click', async (event) => {
 
     event.preventDefault()
 
-    console.log('login')
-
     const emailInput = document.getElementById('email-input')
     const passwordInput = document.getElementById('password')
 
@@ -22,16 +20,23 @@ btnLogin.addEventListener('click', async (event) => {
 
         try {
 
-            const url = 'http://localhost:3000/user/login'
+            console.log(email, password)
 
-            // const response = await makeRequest(url, { email: data, password: password }, 'POST')
+            const loginURL = 'http://localhost:3000/user/login'
 
-            const { token } = response
-            window.localStorage.setItem('token', token)
+            const response = await makeRequest(loginURL, { email: email, password: password }, 'POST')
 
-            // window.location.replace('http://127.0.0.1:3000/home/')
+            if (response.flag) {
 
-            console.log('logIn: ', response)
+                const { token } = response
+                window.localStorage.setItem('token', token)
+                window.location.replace('http://127.0.0.1:3000/home/')
+
+            } else {
+
+                errorPara.innerHTML = response.message
+                errorPara.style.visibility = 'visible'
+            }
 
         } catch (error) {
             console.log('logIn: ', error.message)
@@ -39,23 +44,24 @@ btnLogin.addEventListener('click', async (event) => {
     }
 })
 
-async function makeRequest(URL, data, type) {
+async function makeRequest(URL, data, method) {
     try {
 
-
+        console.log(data)
         const response = await fetch(URL, {
 
-            method: `${type}`,
+            method,
             headers: {
 
-                "Content-Type": "Application/json",
-                "token": `${token}`
-            }
+                "Content-Type": "Application/json"
+            },
+            body: JSON.stringify(data)
+
         })
 
-        const data = await response.json()
+        const res = await response.json()
 
-        return data
+        return res
     } catch (error) {
         console.log('makeRequest -> ', error)
 

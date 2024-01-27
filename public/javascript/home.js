@@ -1,11 +1,23 @@
 console.log('home')
 
-// TODO: DOMContentLoaded
-// load the added, completed task taks after DOM rendered
-
 let todos = [];
 const token = localStorage.getItem('token')
-renderTodos()
+const errorPara = document.getElementById('error')
+
+// TODO: DOMContentLoaded
+// load the added, completed task taks after DOM rendered
+document.addEventListener('DOMContentLoaded', async () => {
+
+    const taskToBeCompletedURL = 'http://127.0.0.1:3000/complete-task'
+
+    const response = await makeGetRequest(taskToBeCompletedURL)
+
+    if (response.flag) {
+
+        renderTodos()
+    }
+
+})
 
 // delete todo
 document.getElementById('todos').addEventListener('click', (event) => {
@@ -28,6 +40,7 @@ document.getElementById('todos').addEventListener('click', (event) => {
     }
 })
 
+// add todo
 const addTodo = document.getElementById('btn-add')
 addTodo.addEventListener('click', async (event) => {
     event.preventDefault()
@@ -46,10 +59,10 @@ addTodo.addEventListener('click', async (event) => {
 
         todos.unshift(data);
 
-        const addURL = ''
+        const addURL = 'http://127.0.0.1:3000/task/add-task'
         const response = await makeRequest(addURL, data, 'POST')
 
-        if (response.message == 'success') {
+        if (response.flag) {
 
             // render todo
             renderTodos();
@@ -58,7 +71,8 @@ addTodo.addEventListener('click', async (event) => {
             document.getElementById('content').value = '';
         } else {
 
-            console.log('add todo --> something went wrong')
+            errorPara.innerHTML = response.message
+            errorPara.style.visibility = 'visible'
         }
 
     }
@@ -88,7 +102,10 @@ function renderTodos() {
         </div>
         
         <div class="flex mt-12 btn-container">
-        <div><p>${todo.dateAndTime}</p></div>
+        <div>
+        
+        <p>Due Date</p>
+        <p>${todo.dateAndTime}</p></div>
             <div style="text-align: right;">
             <input type="checkbox" class="delete-btn" data-index="${index}" data-index="${todo.taskId}">    
             </div>
@@ -98,27 +115,52 @@ function renderTodos() {
     });
 }
 
-
-async function makeRequest(URL, data, type) {
+// make request
+async function makeRequest(URL, data, method) {
     try {
 
-
+        console.log(data)
         const response = await fetch(URL, {
 
-            method: `${type}`,
+            method,
             headers: {
 
                 "Content-Type": "Application/json",
-                "token": `${token}`
-            }
+                token
+            },
+            body: JSON.stringify(data)
+
         })
 
-        const data = await response.json()
+        const res = await response.json()
 
-        return data
+        return res
     } catch (error) {
         console.log('makeRequest -> ', error)
 
+        return
+    }
+}
+
+// make Get request
+async function makeGetRequest(URL) {
+    try {
+
+        const response = await fetch(URL, {
+
+            method: 'GET',
+            headers: {
+
+                "Content-Type": "Application/json",
+                token
+            }
+        })
+        const res = await response.json()
+        console.log(res)
+        return res
+
+    } catch (error) {
+        console.log('makeGetRequest -> ', error)
         return
     }
 }

@@ -131,4 +131,11 @@ button:hover {
     width: 20px;
 }
 
-
+#error {
+   
+    color: red;
+    font-size: 14px;
+    visibility: hidden;
+    margin-top: 5px;
+    margin-bottom: 16px;
+}

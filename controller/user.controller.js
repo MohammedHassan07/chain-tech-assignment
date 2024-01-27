@@ -10,24 +10,36 @@ const register = async (req, res) => {
 
 
         const { name, email, password } = req.body
+        console.log(name, email, password)
 
         const user = await userModel.findOne({ email })
 
         if (user) {
 
             res.status(400).json({ flag: false, message: 'User already exixts' })
-        
         } else {
 
             // create the user
             const hashPass = await hashPassword(password)
-            const newUser = new userModel({ name, email, password: hashPass })
 
-            const newUserData = await newUser.save()
+            if (!hashPass) {
 
-            console.log(newUserData)
+                res.status(201).json({ flag: false, message: hashPass })
 
-            res.status(201).json({ flag: true, message: 'User registerd successfully, logIn to the app' })
+            } else {
+
+                const newUser = new userModel({ name, email, password: hashPass })
+
+                const newUserData = await newUser.save()
+
+                // generate token
+                const secretKey = process.env.SECRET_JWT_Key
+                const token = jwt.sign(email, secretKey)
+
+                console.log(newUserData)
+
+                res.status(201).json({ flag: true, token: token })
+            }
         }
     } catch (error) {
         console.log('register -->', error)
@@ -41,6 +53,7 @@ const login = async (req, res) => {
     const { email, password } = req.body
 
     const user = await userModel.findOne({ email })
+    console.log(user)
 
     if (!user) {
 
@@ -48,7 +61,7 @@ const login = async (req, res) => {
     } else {
 
         const verify = await verifyPassword(password, user.password)
-       
+
         if (!verify) {
 
             res.status(401).json({ flag: false, message: 'invalid credintials' })
